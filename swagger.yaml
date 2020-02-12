@@ -1,0 +1,298 @@
+openapi: "3.0.0"
+info:
+  title: OpenCars API
+  description: API для публічної інформації про транспортні засоби України
+  version: 0.2.0
+servers:
+  - url: https://api.opencars.app/api/v1/
+paths:
+  /operations:
+    get:
+      tags:
+        - Транспорт
+      security:
+        - ApiKeyAuth: []
+      summary: Інформація про операції за реєстраційним номером
+      description: Отримати перелік операцій за реєстраційним номером
+      parameters:
+        - name: number
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Реєстраційний номер
+          example: AA9359PC
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+          description: Кількість записів
+        - name: order
+          in: query
+          required: false
+          description: Порядок сортування
+          schema:
+            type: string
+            enum: [asc, desc]
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Operation'
+        401:
+          description: Потрібна Авторизація
+        405:
+          description: Помилковий метод
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        400:
+          description: Помилковий запит
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Помилка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /registrations:
+    get:
+      tags:
+        - Транспорт
+      security:
+        - ApiKeyAuth: []
+      summary: Інформація про реєстрації транспортного засобу
+      description: Отримати перелік реєстрацій транспортного засобу
+      parameters:
+        - name: number
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Реєстраційний номер
+          example: AA9359PC
+        - name: vin
+          in: query
+          required: false
+          schema:
+            type: string
+          description: VIN
+        - name: code
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Номер свідотства про реєстрацію
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Registration'
+        401:
+          description: Потрібна Авторизація
+        405:
+          description: Помилковий метод
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        400:
+          description: Помилковий запит
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Помилка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Api-Key
+
+  schemas:
+    Error:
+      type: object
+      description: Повідомлення про помилку
+      properties:
+        error:
+          type: string
+          description: Опис помилки
+
+    Operation:
+      type: object
+      description: Детальна інформація про операцію з транспортним засобом
+      properties:
+        number:
+          type: string
+          description: Реєстраційний номер
+          example: "АА9359РС"
+        brand:
+          type: string
+          description: Марка
+          example: "TESLA"
+        model:
+          type: string
+          description: Модель
+          example: "MODEL X"
+        year:
+          type: integer
+          description: Рік випуску
+          example: 2016
+        date:
+          type: string
+          description: Дата проведення операції
+          example: "2016-10-13"
+        registration:
+          type: string
+          description: Вид реєстрації
+          example: "РЕЄСТРАЦIЯ ТЗ ПРИВЕЗЕНОГО З-ЗА КОРДОНУ ПО ВМД"
+        registration_code:
+          type: integer
+          description: Код виду реєстрації
+          example: 70
+        fuel:
+          type: string
+          description: Тип пального
+          example: ЕЛЕКТРО
+        capacity:
+          type: number
+          description: Об'єм двигуна
+          example: null
+        color:
+          type: string
+          description: Колір транспортного засобу
+          example: ЧОРНИЙ
+        kind:
+          type: string
+          description: Тип транспортного засобу
+          example: ЛЕГКОВИЙ
+        body:
+          type: string
+          description: Тип кузову
+          example: УНІВЕРСАЛ-B
+        purpose:
+          type: string
+          description: Призначення
+          example: ЗАГАЛЬНИЙ
+        own_weight:
+          type: integer
+          description: Маса без навантаження
+          example: 2485
+        total_weight:
+          type: integer
+          description: Повна маса
+          example: 3021
+        reg_addr_koatuu:
+          type: string
+          description: Адреса реєстрацiї у форматі КОАТУУ
+          example: "8036600000"
+        dep_code:
+          type: integer
+          description: Код департаменту
+          example: 8044
+        dep:
+          type: string
+          description: Назва департаменту
+          example: "Центр 8044"
+        person:
+          type: string
+          description: Назва департаменту
+          example: "Юридична особа"
+
+    Registration:
+      type: object
+      description: Детальна інформація про реєстрацію транспортного засобу
+      properties:
+        number:
+          type: string
+          description: Реєстраційний номер
+          example: "АА9359РС"
+        code:
+          type: string
+          description: Номер свідоцтва про реєстрацію транспортного засобу
+          example: "СХН484154"
+        vin:
+          type: string
+          description: VIN-код
+          example: "5YJXCCE40GF010543"
+        brand:
+          type: string
+          description: Марка
+          example: "TESLA"
+        model:
+          type: string
+          description: Модель
+          example: "MODEL X"
+        capacity:
+          type: number
+          description: Об'єм двигуна
+          example: null
+        rank_category:
+          type: string
+          description: Категорія транспортного засобу
+          example: "B"
+        num_seating:
+          type: integer
+          description: Кількість стоячих місць
+          example: null
+        num_standing:
+          type: integer
+          description: Кількість сидячих місць
+          example: 7
+        color:
+          type: string
+          description: Колір
+          example: "ЧОРНИЙ"
+        date:
+          type: string
+          description: Дата реєстрації
+          example: "2019-06-05"
+        first_reg_date:
+          type: string
+          description: Дата першої реєстрації
+          example: "2016-10-13"
+        fuel:
+          type: string
+          description: Тип пального
+          example: "ЕЛЕКТРО"
+        kind:
+          type: string
+          description: Тип
+          example: "ЛЕГКОВИЙ УНІВЕРСАЛ-B"
+        own_weight:
+          type: number
+          description: Маса без навантаження
+          example: 2485
+        total_weight:
+          type: number
+          description: Повна маса
+          example: 3021
+        year:
+          type: integer
+          description: Рік випуску
+          example: 2016
+
+tags:
+- name: Транспорт
+  description: Загальна інформація про транспортні засоби України.
