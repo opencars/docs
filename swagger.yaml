@@ -28,6 +28,7 @@ paths:
           schema:
             type: integer
             minimum: 1
+            default: 10
           description: Кількість записів
         - name: order
           in: query
@@ -35,6 +36,7 @@ paths:
           description: Порядок сортування
           schema:
             type: string
+            default: desc
             enum: [asc, desc]
       responses:
         200:
