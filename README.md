@@ -8,10 +8,18 @@ API для публічної інформації про транспортні
 * [Paths](#paths)
   - [`GET` /operations](#op-get-operations) 
   - [`GET` /registrations](#op-get-registrations) 
+  - [`GET` /registrations/{code}](#op-get-registrations-code) 
+  - [`GET` /wanted/vehicles](#op-get-wanted-vehicles) 
+  - [`GET` /wanted/revisions](#op-get-wanted-revisions) 
+  - [`GET` /wanted/revisions/{id}](#op-get-wanted-revisions-id) 
+  - [`GET` /wanted/revisions/stats](#op-get-wanted-revisions-stats) 
 * [Schemas](#schemas)
   - Error
   - Operation
   - Registration
+  - WantedVehicle
+  - WantedRevision
+  - WantedRevisionStatMonth
 
 
 <a id="servers" />
@@ -67,7 +75,6 @@ API для публічної інформації про транспортні
 
 > Інформація про операції за реєстраційним номером
 
-Отримати перелік операцій за реєстраційним номером
 
 
 
@@ -510,7 +517,6 @@ _No headers specified_
 
 > Інформація про реєстрації транспортного засобу
 
-Отримати перелік реєстрацій транспортного засобу
 
 
 
@@ -695,7 +701,7 @@ _No headers specified_
         <td><em>Any</em></td>
       </tr>
       <tr>
-        <td>Response.num_seating&quot;</td>
+        <td>Response.num_seating</td>
         <td>
           integer
         </td>
@@ -703,7 +709,7 @@ _No headers specified_
         <td><em>Any</em></td>
       </tr>
       <tr>
-        <td>Response.num_standing&quot;</td>
+        <td>Response.num_standing</td>
         <td>
           integer
         </td>
@@ -790,8 +796,8 @@ _No headers specified_
     "model": "MODEL X",
     "capacity": null,
     "rank_category": "B",
-    "num_seating\"": null,
-    "num_standing\"": 7,
+    "num_seating": null,
+    "num_standing": 7,
     "color": "ЧОРНИЙ",
     "date": "2019-06-05",
     "first_reg_date": "2016-10-13",
@@ -800,6 +806,1501 @@ _No headers specified_
     "own_weight": 2485,
     "total_weight": 3021,
     "year": 2016
+  }
+]
+```
+##### ▶ 400 - Помилковий запит
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>error</td>
+        <td>
+          string
+        </td>
+        <td>Опис помилки</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+{
+  "error": "string"
+}
+```
+##### ▶ 401 - Потрібна Авторизація
+
+###### Headers
+_No headers specified_
+
+##### ▶ 405 - Помилковий метод
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>error</td>
+        <td>
+          string
+        </td>
+        <td>Опис помилки</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+{
+  "error": "string"
+}
+```
+##### ▶ 500 - Помилка
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>error</td>
+        <td>
+          string
+        </td>
+        <td>Опис помилки</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+{
+  "error": "string"
+}
+```
+
+#### Tags
+
+<div class="tags">
+  <div class="tags__tag"></div>
+</div>
+</div>
+
+### `GET` /registrations/{code}
+<a id="op-get-registrations-code" />
+
+> Реєстрація транспортного засобу за номером свідотства
+
+
+
+#### Path parameters
+
+##### &#9655; code
+
+Номер свідотства про реєстрацію
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>In</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>code  <strong>(required)</strong></td>
+        <td>
+          string
+        </td>
+        <td>path</td>
+        <td>Номер свідотства про реєстрацію</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+#### Responses
+
+
+##### ▶ 200 - OK
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>number</td>
+        <td>
+          string
+        </td>
+        <td>Реєстраційний номер</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>code</td>
+        <td>
+          string
+        </td>
+        <td>Номер свідоцтва про реєстрацію транспортного засобу</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>vin</td>
+        <td>
+          string
+        </td>
+        <td>VIN-код</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>brand</td>
+        <td>
+          string
+        </td>
+        <td>Марка</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>model</td>
+        <td>
+          string
+        </td>
+        <td>Модель</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>capacity</td>
+        <td>
+          number
+        </td>
+        <td>Об'єм двигуна</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>rank_category</td>
+        <td>
+          string
+        </td>
+        <td>Категорія транспортного засобу</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>num_seating</td>
+        <td>
+          integer
+        </td>
+        <td>Кількість стоячих місць</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>num_standing</td>
+        <td>
+          integer
+        </td>
+        <td>Кількість сидячих місць</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>color</td>
+        <td>
+          string
+        </td>
+        <td>Колір</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>date</td>
+        <td>
+          string
+        </td>
+        <td>Дата реєстрації</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>first_reg_date</td>
+        <td>
+          string
+        </td>
+        <td>Дата першої реєстрації</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>fuel</td>
+        <td>
+          string
+        </td>
+        <td>Тип пального</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>kind</td>
+        <td>
+          string
+        </td>
+        <td>Тип</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>own_weight</td>
+        <td>
+          number
+        </td>
+        <td>Маса без навантаження</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>total_weight</td>
+        <td>
+          number
+        </td>
+        <td>Повна маса</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>year</td>
+        <td>
+          integer
+        </td>
+        <td>Рік випуску</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+{
+  "number": "АА9359РС",
+  "code": "СХН484154",
+  "vin": "5YJXCCE40GF010543",
+  "brand": "TESLA",
+  "model": "MODEL X",
+  "capacity": null,
+  "rank_category": "B",
+  "num_seating": null,
+  "num_standing": 7,
+  "color": "ЧОРНИЙ",
+  "date": "2019-06-05",
+  "first_reg_date": "2016-10-13",
+  "fuel": "ЕЛЕКТРО",
+  "kind": "ЛЕГКОВИЙ УНІВЕРСАЛ-B",
+  "own_weight": 2485,
+  "total_weight": 3021,
+  "year": 2016
+}
+```
+##### ▶ 400 - Помилковий запит
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>error</td>
+        <td>
+          string
+        </td>
+        <td>Опис помилки</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+{
+  "error": "string"
+}
+```
+##### ▶ 401 - Потрібна Авторизація
+
+###### Headers
+_No headers specified_
+
+##### ▶ 405 - Помилковий метод
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>error</td>
+        <td>
+          string
+        </td>
+        <td>Опис помилки</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+{
+  "error": "string"
+}
+```
+##### ▶ 500 - Помилка
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>error</td>
+        <td>
+          string
+        </td>
+        <td>Опис помилки</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+{
+  "error": "string"
+}
+```
+
+#### Tags
+
+<div class="tags">
+  <div class="tags__tag"></div>
+</div>
+</div>
+
+### `GET` /wanted/vehicles
+<a id="op-get-wanted-vehicles" />
+
+> Інформація про викрадені транспортні засоби
+
+
+
+
+
+#### Query parameters
+
+##### &#9655; number
+
+Реєстраційний номер
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>In</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>number </td>
+        <td>
+          string
+        </td>
+        <td>query</td>
+        <td>Реєстраційний номер</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### &#9655; vin
+
+VIN-код
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>In</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>vin </td>
+        <td>
+          string
+        </td>
+        <td>query</td>
+        <td>VIN-код</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### &#9655; revision
+
+Номер ревізії
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>In</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>revision </td>
+        <td>
+          integer
+        </td>
+        <td>query</td>
+        <td>Номер ревізії</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+#### Responses
+
+
+##### ▶ 200 - OK
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>Response</td>
+        <td>
+          array(object)
+        </td>
+        <td></td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.id</td>
+        <td>
+          string
+        </td>
+        <td>Унікальний номер викраденого транспортного засобу</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.brand</td>
+        <td>
+          string
+        </td>
+        <td>Інформація про транспортний засіб</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.color</td>
+        <td>
+          string
+        </td>
+        <td>Колір транспортного засобу</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.number</td>
+        <td>
+          string
+        </td>
+        <td>Реєстраційний номер</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.body_number</td>
+        <td>
+          string
+        </td>
+        <td>Номер кузова</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.chassis_number</td>
+        <td>
+          string
+        </td>
+        <td>Номер шасі</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.engine_number</td>
+        <td>
+          string
+        </td>
+        <td>Номeр двигуна</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.ovd</td>
+        <td>
+          string
+        </td>
+        <td>Орган, що вніс дані у реєстр</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.kind</td>
+        <td>
+          string
+        </td>
+        <td>Тип транспортного засобу</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.status</td>
+        <td>
+          string
+        </td>
+        <td>Статус розшуку транспортного засобу</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.theft_date</td>
+        <td>
+          string
+        </td>
+        <td>Час викрадення транспортного засобу у форматі ISO 8601</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.insert_date</td>
+        <td>
+          string
+        </td>
+        <td>Час внесення інформації у рееєстр у форматі ISO 8601</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+[
+  {
+    "id": "00163195157556102859",
+    "brand": "CHEVROLET - EXPRESS",
+    "color": "ЗЕЛЕНИЙ",
+    "number": "AA4686EH",
+    "body_number": "1GBSHDC44D1126468",
+    "chassis_number": "Ідентифікаційний номер транспортного засобу",
+    "engine_number": null,
+    "ovd": "ГЕНЕРАЛЬНА ПРОКУРАТУРА УКРАЇНИ",
+    "kind": "ЛЕГКОВИЙ",
+    "status": "stolen",
+    "theft_date": "2016-11-14T00:00:00Z",
+    "insert_date": "2016-11-14T14:19:35Z"
+  }
+]
+```
+##### ▶ 400 - Помилковий запит
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>error</td>
+        <td>
+          string
+        </td>
+        <td>Опис помилки</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+{
+  "error": "string"
+}
+```
+##### ▶ 401 - Потрібна Авторизація
+
+###### Headers
+_No headers specified_
+
+##### ▶ 405 - Помилковий метод
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>error</td>
+        <td>
+          string
+        </td>
+        <td>Опис помилки</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+{
+  "error": "string"
+}
+```
+##### ▶ 500 - Помилка
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>error</td>
+        <td>
+          string
+        </td>
+        <td>Опис помилки</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+{
+  "error": "string"
+}
+```
+
+#### Tags
+
+<div class="tags">
+  <div class="tags__tag"></div>
+</div>
+</div>
+
+### `GET` /wanted/revisions
+<a id="op-get-wanted-revisions" />
+
+> Інформація про оновлення реєстру викрадених транспортних засобів
+
+
+
+
+
+#### Query parameters
+
+##### &#9655; limit
+
+Кількість елементів у відповіді
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>In</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>limit </td>
+        <td>
+          integer
+        </td>
+        <td>query</td>
+        <td>Кількість елементів у відповіді</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+#### Responses
+
+
+##### ▶ 200 - OK
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>Response</td>
+        <td>
+          array(object)
+        </td>
+        <td></td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.id</td>
+        <td>
+          string
+        </td>
+        <td>Унікальний код оновлення реєстру</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.name</td>
+        <td>
+          string
+        </td>
+        <td>Назва ресурсу</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.url</td>
+        <td>
+          string
+        </td>
+        <td>Посилання на оновлений ресурс</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.file_hash_sum</td>
+        <td>
+          string
+        </td>
+        <td>Хеш сума контенту файлу</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.removed</td>
+        <td>
+          number
+        </td>
+        <td>Кількість видалених записів з реєстру</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.added</td>
+        <td>
+          number
+        </td>
+        <td>Кількість доданих записів до реєстру</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.created_at</td>
+        <td>
+          string
+        </td>
+        <td>Час оновлення даних у форматі ISO 8601</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+[
+  {
+    "id": "29092018_2",
+    "name": "MVSWantedTransport_1.json",
+    "url": "https://data.gov.ua/dataset/9b0e87e0-eaa3-4f14-9547-03d61b70abb6/resource/06e65b06-3120-4713-8003-7905a83f95f5/revision/29092018_2",
+    "file_hash_sum": "f4ae97fb62c7c9b91d6b950c79deb716",
+    "removed": 27019,
+    "added": 43365,
+    "created_at": "2018-09-29T22:33:33Z"
+  }
+]
+```
+##### ▶ 400 - Помилковий запит
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>error</td>
+        <td>
+          string
+        </td>
+        <td>Опис помилки</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+{
+  "error": "string"
+}
+```
+##### ▶ 401 - Потрібна Авторизація
+
+###### Headers
+_No headers specified_
+
+##### ▶ 405 - Помилковий метод
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>error</td>
+        <td>
+          string
+        </td>
+        <td>Опис помилки</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+{
+  "error": "string"
+}
+```
+##### ▶ 500 - Помилка
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>error</td>
+        <td>
+          string
+        </td>
+        <td>Опис помилки</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+{
+  "error": "string"
+}
+```
+
+#### Tags
+
+<div class="tags">
+  <div class="tags__tag"></div>
+</div>
+</div>
+
+### `GET` /wanted/revisions/{id}
+<a id="op-get-wanted-revisions-id" />
+
+> Відомості про оновлення реєстру за унікальним кодом
+
+
+
+#### Path parameters
+
+##### &#9655; id
+
+Унікальний код оновлення реєстру
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>In</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>id  <strong>(required)</strong></td>
+        <td>
+          string
+        </td>
+        <td>path</td>
+        <td>Унікальний код оновлення реєстру</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+#### Responses
+
+
+##### ▶ 200 - OK
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>id</td>
+        <td>
+          string
+        </td>
+        <td>Унікальний код оновлення реєстру</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>
+          string
+        </td>
+        <td>Назва ресурсу</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>url</td>
+        <td>
+          string
+        </td>
+        <td>Посилання на оновлений ресурс</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>file_hash_sum</td>
+        <td>
+          string
+        </td>
+        <td>Хеш сума контенту файлу</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>removed</td>
+        <td>
+          number
+        </td>
+        <td>Кількість видалених записів з реєстру</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>added</td>
+        <td>
+          number
+        </td>
+        <td>Кількість доданих записів до реєстру</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>created_at</td>
+        <td>
+          string
+        </td>
+        <td>Час оновлення даних у форматі ISO 8601</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+{
+  "id": "29092018_2",
+  "name": "MVSWantedTransport_1.json",
+  "url": "https://data.gov.ua/dataset/9b0e87e0-eaa3-4f14-9547-03d61b70abb6/resource/06e65b06-3120-4713-8003-7905a83f95f5/revision/29092018_2",
+  "file_hash_sum": "f4ae97fb62c7c9b91d6b950c79deb716",
+  "removed": 27019,
+  "added": 43365,
+  "created_at": "2018-09-29T22:33:33Z"
+}
+```
+##### ▶ 400 - Помилковий запит
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>error</td>
+        <td>
+          string
+        </td>
+        <td>Опис помилки</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+{
+  "error": "string"
+}
+```
+##### ▶ 401 - Потрібна Авторизація
+
+###### Headers
+_No headers specified_
+
+##### ▶ 405 - Помилковий метод
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>error</td>
+        <td>
+          string
+        </td>
+        <td>Опис помилки</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+{
+  "error": "string"
+}
+```
+##### ▶ 500 - Помилка
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>error</td>
+        <td>
+          string
+        </td>
+        <td>Опис помилки</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+{
+  "error": "string"
+}
+```
+
+#### Tags
+
+<div class="tags">
+  <div class="tags__tag"></div>
+</div>
+</div>
+
+### `GET` /wanted/revisions/stats
+<a id="op-get-wanted-revisions-stats" />
+
+> Статистика оновлення реєстру за останні 12 місяців
+
+
+
+
+
+
+
+
+
+#### Responses
+
+
+##### ▶ 200 - OK
+
+###### Headers
+_No headers specified_
+
+###### application/json
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>Response</td>
+        <td>
+          array(object)
+        </td>
+        <td></td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.added</td>
+        <td>
+          integer
+        </td>
+        <td>Кількість доданих записів за місяць</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.removed</td>
+        <td>
+          integer
+        </td>
+        <td>Кількість видалених записів за місяць</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.month</td>
+        <td>
+          integer
+        </td>
+        <td>Місяць</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>Response.year</td>
+        <td>
+          integer
+        </td>
+        <td>Рік</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+
+##### Example _(generated)_
+
+```json
+[
+  {
+    "added": 241,
+    "removed": 195,
+    "month": 2,
+    "year": 2020
   }
 ]
 ```
@@ -1229,7 +2730,7 @@ _No headers specified_
         <td><em>Any</em></td>
       </tr>
       <tr>
-        <td>num_seating&quot;</td>
+        <td>num_seating</td>
         <td>
           integer
         </td>
@@ -1237,7 +2738,7 @@ _No headers specified_
         <td><em>Any</em></td>
       </tr>
       <tr>
-        <td>num_standing&quot;</td>
+        <td>num_standing</td>
         <td>
           integer
         </td>
@@ -1322,8 +2823,8 @@ _No headers specified_
   "model": "MODEL X",
   "capacity": null,
   "rank_category": "B",
-  "num_seating\"": null,
-  "num_standing\"": 7,
+  "num_seating": null,
+  "num_standing": 7,
   "color": "ЧОРНИЙ",
   "date": "2019-06-05",
   "first_reg_date": "2016-10-13",
@@ -1332,5 +2833,281 @@ _No headers specified_
   "own_weight": 2485,
   "total_weight": 3021,
   "year": 2016
+}
+```
+<a id="" />
+
+#### WantedVehicle
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>id</td>
+        <td>
+          string
+        </td>
+        <td>Унікальний номер викраденого транспортного засобу</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>brand</td>
+        <td>
+          string
+        </td>
+        <td>Інформація про транспортний засіб</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>color</td>
+        <td>
+          string
+        </td>
+        <td>Колір транспортного засобу</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>number</td>
+        <td>
+          string
+        </td>
+        <td>Реєстраційний номер</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>body_number</td>
+        <td>
+          string
+        </td>
+        <td>Номер кузова</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>chassis_number</td>
+        <td>
+          string
+        </td>
+        <td>Номер шасі</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>engine_number</td>
+        <td>
+          string
+        </td>
+        <td>Номeр двигуна</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>ovd</td>
+        <td>
+          string
+        </td>
+        <td>Орган, що вніс дані у реєстр</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>kind</td>
+        <td>
+          string
+        </td>
+        <td>Тип транспортного засобу</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>status</td>
+        <td>
+          string
+        </td>
+        <td>Статус розшуку транспортного засобу</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>theft_date</td>
+        <td>
+          string
+        </td>
+        <td>Час викрадення транспортного засобу у форматі ISO 8601</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>insert_date</td>
+        <td>
+          string
+        </td>
+        <td>Час внесення інформації у рееєстр у форматі ISO 8601</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+##### Example _(generated)_
+
+```json
+{
+  "id": "00163195157556102859",
+  "brand": "CHEVROLET - EXPRESS",
+  "color": "ЗЕЛЕНИЙ",
+  "number": "AA4686EH",
+  "body_number": "1GBSHDC44D1126468",
+  "chassis_number": "Ідентифікаційний номер транспортного засобу",
+  "engine_number": null,
+  "ovd": "ГЕНЕРАЛЬНА ПРОКУРАТУРА УКРАЇНИ",
+  "kind": "ЛЕГКОВИЙ",
+  "status": "stolen",
+  "theft_date": "2016-11-14T00:00:00Z",
+  "insert_date": "2016-11-14T14:19:35Z"
+}
+```
+<a id="" />
+
+#### WantedRevision
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>id</td>
+        <td>
+          string
+        </td>
+        <td>Унікальний код оновлення реєстру</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>
+          string
+        </td>
+        <td>Назва ресурсу</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>url</td>
+        <td>
+          string
+        </td>
+        <td>Посилання на оновлений ресурс</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>file_hash_sum</td>
+        <td>
+          string
+        </td>
+        <td>Хеш сума контенту файлу</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>removed</td>
+        <td>
+          number
+        </td>
+        <td>Кількість видалених записів з реєстру</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>added</td>
+        <td>
+          number
+        </td>
+        <td>Кількість доданих записів до реєстру</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>created_at</td>
+        <td>
+          string
+        </td>
+        <td>Час оновлення даних у форматі ISO 8601</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+##### Example _(generated)_
+
+```json
+{
+  "id": "29092018_2",
+  "name": "MVSWantedTransport_1.json",
+  "url": "https://data.gov.ua/dataset/9b0e87e0-eaa3-4f14-9547-03d61b70abb6/resource/06e65b06-3120-4713-8003-7905a83f95f5/revision/29092018_2",
+  "file_hash_sum": "f4ae97fb62c7c9b91d6b950c79deb716",
+  "removed": 27019,
+  "added": 43365,
+  "created_at": "2018-09-29T22:33:33Z"
+}
+```
+<a id="" />
+
+#### WantedRevisionStatMonth
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Accepted values</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>added</td>
+        <td>
+          integer
+        </td>
+        <td>Кількість доданих записів за місяць</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>removed</td>
+        <td>
+          integer
+        </td>
+        <td>Кількість видалених записів за місяць</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>month</td>
+        <td>
+          integer
+        </td>
+        <td>Місяць</td>
+        <td><em>Any</em></td>
+      </tr>
+      <tr>
+        <td>year</td>
+        <td>
+          integer
+        </td>
+        <td>Рік</td>
+        <td><em>Any</em></td>
+      </tr>
+  </tbody>
+</table>
+
+##### Example _(generated)_
+
+```json
+{
+  "added": 241,
+  "removed": 195,
+  "month": 2,
+  "year": 2020
 }
 ```
