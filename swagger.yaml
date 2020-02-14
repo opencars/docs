@@ -13,7 +13,6 @@ paths:
       security:
         - ApiKeyAuth: []
       summary: Інформація про операції за реєстраційним номером
-      description: Отримати перелік операцій за реєстраційним номером
       parameters:
         - name: number
           in: query
@@ -67,6 +66,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
   /registrations:
     get:
       tags:
@@ -74,7 +74,6 @@ paths:
       security:
         - ApiKeyAuth: []
       summary: Інформація про реєстрації транспортного засобу
-      description: Отримати перелік реєстрацій транспортного засобу
       parameters:
         - name: number
           in: query
@@ -131,8 +130,7 @@ paths:
         - Транспорт
       security:
         - ApiKeyAuth: []
-      summary: Інформація про реєстрації транспортного засобу
-      description: Отримати перелік реєстрацій транспортного засобу
+      summary: Реєстрація транспортного засобу за номером свідотства
       parameters:
         - name: code
           in: path
@@ -148,6 +146,191 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Registration'
+        401:
+          description: Потрібна Авторизація
+        405:
+          description: Помилковий метод
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        400:
+          description: Помилковий запит
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Помилка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /wanted/vehicles:
+    get:
+      tags:
+        - Транспорт
+      security:
+        - ApiKeyAuth: []
+      summary: Інформація про викрадені транспортні засоби
+      parameters:
+        - name: number
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Реєстраційний номер
+          example: AA4686EH
+        - name: vin
+          in: query
+          required: false
+          schema:
+            type: string
+          description: VIN-код
+        - name: revision
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Номер ревізії
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WantedVehicle'
+        401:
+          description: Потрібна Авторизація
+        405:
+          description: Помилковий метод
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        400:
+          description: Помилковий запит
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Помилка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /wanted/revisions:
+    get:
+      tags:
+        - Транспорт
+      security:
+        - ApiKeyAuth: []
+      summary: Інформація про оновлення реєстру викрадених транспортних засобів
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+            minimum: 1
+            maximum: 100
+          description: Кількість елементів у відповіді
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WantedRevision'
+        401:
+          description: Потрібна Авторизація
+        405:
+          description: Помилковий метод
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        400:
+          description: Помилковий запит
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Помилка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+  /wanted/revisions/{id}:
+    get:
+      tags:
+        - Транспорт
+      security:
+        - ApiKeyAuth: []
+      summary: Відомості про оновлення реєстру за унікальним кодом
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Унікальний код оновлення реєстру
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WantedRevision'
+        401:
+          description: Потрібна Авторизація
+        405:
+          description: Помилковий метод
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        400:
+          description: Помилковий запит
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Помилка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+  /wanted/revisions/stats:
+    get:
+      tags:
+        - Транспорт
+      security:
+        - ApiKeyAuth: []
+      summary: Статистика оновлення реєстру за останні 12 місяців
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WantedRevisionStatMonth'
         401:
           description: Потрібна Авторизація
         405:
@@ -339,6 +522,112 @@ components:
           description: Рік випуску
           example: 2016
 
+    WantedVehicle:
+      type: object
+      description: Інформація про викрадений транспортний засіб
+      properties:
+        id:
+          type: string
+          description: Унікальний номер викраденого транспортного засобу
+          example: "00163195157556102859"
+        brand:
+          type: string
+          description: Інформація про транспортний засіб
+          example: CHEVROLET - EXPRESS
+        color:
+          type: string
+          description: Колір транспортного засобу
+          example: ЗЕЛЕНИЙ
+        number:
+          type: string
+          description: Реєстраційний номер
+          example: AA4686EH
+        body_number:
+          type: string
+          description: Номер кузова
+          example: 1GBSHDC44D1126468
+        chassis_number:
+          type: string
+          description: Номер шасі
+          example: Ідентифікаційний номер транспортного засобу
+        engine_number:
+          type: string
+          description: Номeр двигуна
+          example:
+        ovd:
+          type: string
+          description: Орган, що вніс дані у реєстр
+          example: ГЕНЕРАЛЬНА ПРОКУРАТУРА УКРАЇНИ
+        kind:
+          type: string
+          description: Тип транспортного засобу
+          example: ЛЕГКОВИЙ
+        status:
+          type: string
+          description: Статус розшуку транспортного засобу
+          example: stolen
+        theft_date:
+          type: string
+          description: Час викрадення транспортного засобу у форматі ISO 8601
+          example: "2016-11-14T00:00:00Z"
+        insert_date:
+          type: string
+          description: Час внесення інформації у рееєстр у форматі ISO 8601
+          example: "2016-11-14T14:19:35Z"
+
+    WantedRevision:
+      type: object
+      description: Інформація про оновлення ресурсу
+      properties:
+        id:
+          type: string
+          description: Унікальний код оновлення реєстру
+          example: "29092018_2"
+        name:
+          type: string
+          description: Назва ресурсу
+          example: "MVSWantedTransport_1.json"
+        url:
+          type: string
+          description: Посилання на оновлений ресурс
+          example: "https://data.gov.ua/dataset/9b0e87e0-eaa3-4f14-9547-03d61b70abb6/resource/06e65b06-3120-4713-8003-7905a83f95f5/revision/29092018_2"
+        file_hash_sum:
+          type: string
+          description: Хеш сума контенту файлу
+          example: "f4ae97fb62c7c9b91d6b950c79deb716"
+        removed:
+          type: number
+          description: Кількість видалених записів з реєстру
+          example: 27019
+        added:
+          type: number
+          description: Кількість доданих записів до реєстру
+          example: 43365
+        created_at:
+          type: string
+          description: Час оновлення даних у форматі ISO 8601
+          example: "2018-09-29T22:33:33Z"
+
+    WantedRevisionStatMonth:
+      type: object
+      description: Статистика оновлення за місяць
+      properties:
+        added:
+          type: integer
+          description: Кількість доданих записів за місяць
+          example: 241
+        removed:
+          type: integer
+          description: Кількість видалених записів за місяць
+          example: 195
+        month:
+          type: integer
+          description: Місяць
+          example: 2
+        year:
+          type: integer
+          description: Рік
+          example: 2020
 tags:
 - name: Транспорт
   description: Загальна інформація про транспортні засоби України.
