@@ -125,6 +125,50 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+  /registrations/{code}:
+    get:
+      tags:
+        - Транспорт
+      security:
+        - ApiKeyAuth: []
+      summary: Інформація про реєстрації транспортного засобу
+      description: Отримати перелік реєстрацій транспортного засобу
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Номер свідотства про реєстрацію
+          example: СХН484154
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Registration'
+        401:
+          description: Потрібна Авторизація
+        405:
+          description: Помилковий метод
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        400:
+          description: Помилковий запит
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Помилка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
 components:
   securitySchemes:
     ApiKeyAuth:
