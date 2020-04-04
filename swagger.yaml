@@ -1,8 +1,10 @@
 openapi: "3.0.0"
 info:
   title: OpenCars API
-  description: API для публічної інформації про транспортні засоби України
+  description: "OpenCars — платформа для роботи з даними про транспортні засоби. Наше API надає актуальні дані з реєстрів України.<br> Наша мета — надання якісних даних про транспортні засоби для різних програмних забезпечень в Україні. Для доступу пишіть нам на <a href='mailto:sales@opencars.app?subject=API'>sales@opencars.app</a> та вкажіть для якого проекту плануєте використання."
   version: 0.2.0
+  contact:
+    email: "support@opencars.app"
 servers:
   - url: https://api.opencars.app/api/v1/
 paths:
