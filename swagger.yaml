@@ -2,7 +2,7 @@ openapi: "3.0.0"
 info:
   title: OpenCars API
   description: "OpenCars — платформа для роботи з даними про транспортні засоби. Наше API надає актуальні дані з реєстрів України.<br> Наша мета — надання якісних даних про транспортні засоби для різних програмних забезпечень в Україні. Для доступу пишіть нам на <a href='mailto:sales@opencars.app?subject=API'>sales@opencars.app</a> та вкажіть для якого проекту плануєте використання."
-  version: 0.2.0
+  version: 0.2.1
   contact:
     email: "support@opencars.app"
 servers:
@@ -273,7 +273,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-
   /wanted/revisions/{id}:
     get:
       tags:
@@ -316,7 +315,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-
   /wanted/revisions/stats:
     get:
       tags:
@@ -354,12 +352,97 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+  /stats/usage:
+    get:
+      tags:
+        - Статистика
+      security:
+        - ApiKeyAuth: []
+      summary: Статистика використання
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageStats'
+        401:
+          description: Потрібна Авторизація
+        405:
+          description: Помилковий метод
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        400:
+          description: Помилковий запит
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Помилка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /stats/usage/{from}/{to}:
+    get:
+      tags:
+        - Статистика
+      security:
+        - ApiKeyAuth: []
+      summary: Статистика використання
+      parameters:
+        - name: from
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Початок часу
+          example: 1588636800
+        - name: to
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Останній час (якщо відсутній, буде використовуватись поточний час)
+          example: 1591056000
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageStats'
+        401:
+          description: Потрібна Авторизація
+        405:
+          description: Помилковий метод
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        400:
+          description: Помилковий запит
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Помилка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
 components:
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
-      name: Api-Key
+      name: X-Api-Key
 
   schemas:
     Error:
@@ -630,6 +713,25 @@ components:
           type: integer
           description: Рік
           example: 2020
+
+    UsageStats:
+      type: object
+      description: Статистика використання
+      properties:
+        failed:
+          type: integer
+          description: Кількість помилкових запитів
+          example: 0
+        succeed:
+          type: integer
+          description: Кількість вдалих запитів
+          example: 10
+        total:
+          type: integer
+          description: Загальна кількість запитів
+          example: 10
 tags:
 - name: Транспорт
   description: Загальна інформація про транспортні засоби України.
+- name: Статистика
+  description: Статистики використання API
