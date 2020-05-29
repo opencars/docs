@@ -437,6 +437,49 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+  /vin-decoder/{vin}:
+    get:
+      tags:
+        - VIN
+      security:
+        - ApiKeyAuth: []
+      summary: Розшифровка VIN
+      operationId: decodeVIN
+      parameters:
+        - name: vin
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '[A-HJ-NPR-Z0-9]{17}'
+          description: Ідентифікаційний номер транспортного засобу у ISO 3379
+          example: 5YJXCCE40GF010543
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VinDecoderResult'
+        400:
+          description: Помилковий запит
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: 400
+                message: 'vin.is_not_valid'
+        401:
+          description: Потрібна Авторизація
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: 401
+                message: 'auth.token.is_not_valid'
+
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -449,7 +492,10 @@ components:
       type: object
       description: Повідомлення про помилку
       properties:
-        error:
+        code:
+          type: integer
+          description: Код помилки
+        message:
           type: string
           description: Опис помилки
 
@@ -730,8 +776,54 @@ components:
           type: integer
           description: Загальна кількість запитів
           example: 10
+
+    VinDecoderResult:
+      type: object
+      description: Розшифрований VIN
+      properties:
+        vehicle:
+          type: object
+          description: Кількість помилкових запитів
+          properties:
+            check:
+              type: boolean
+              description: Перевірка правильності кода
+              example: true
+            country:
+              type: string
+              description: Країна
+              example: 'United States'
+            manufacturer:
+              type: string
+              description: Виробник
+              example: 'TESLA'
+            region:
+              type: string
+              description: Регіон
+              example: 'North America'
+            year:
+              type: integer
+              description: Приблизний рік виготовлення
+              example: 2016
+        vin:
+          type: object
+          description: Кількість вдалих запитів
+          properties:
+            vds:
+              type: string
+              description: Загальна кількість запитів
+              example: 'XCCE40'
+            vis:
+              type: string
+              description: Загальна кількість запитів
+              example: 'GF010543'
+            wmi:
+              type: string
+              description: Загальна кількість запитів
+              example: '5YJ'
+
 tags:
 - name: Транспорт
   description: Загальна інформація про транспортні засоби України.
 - name: Статистика
-  description: Статистики використання API
+  description: Статистика використання API
