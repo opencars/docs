@@ -18,11 +18,18 @@ paths:
       parameters:
         - name: number
           in: query
-          required: true
+          required: false
           schema:
             type: string
           description: Реєстраційний номер
           example: AA9359PC
+        - name: vin
+          in: query
+          required: false
+          schema:
+            type: string
+          description: VIN код
+          example: 5YJXCCE40GF010543
         - name: limit
           in: query
           required: false
@@ -507,6 +514,10 @@ components:
           type: string
           description: Реєстраційний номер
           example: "АА9359РС"
+        vin:
+          type: string
+          description: VIN код
+          example: "5YJXCCE40GF010543"
         brand:
           type: string
           description: Марка
