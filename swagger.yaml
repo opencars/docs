@@ -2,7 +2,7 @@ openapi: "3.0.0"
 info:
   title: OpenCars API
   description: "OpenCars — платформа для роботи з даними про транспортні засоби. Наше API надає актуальні дані з реєстрів України.<br> Наша мета — надання якісних даних про транспортні засоби для різних програмних забезпечень в Україні. Для доступу пишіть нам на <a href='mailto:sales@opencars.app?subject=API'>sales@opencars.app</a> та вкажіть для якого проекту плануєте використання."
-  version: 0.2.1
+  version: 0.3.0
   contact:
     email: "support@opencars.app"
 servers:
@@ -359,91 +359,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /stats/usage:
-    get:
-      tags:
-        - Статистика
-      security:
-        - ApiKeyAuth: []
-      summary: Статистика використання
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UsageStats'
-        401:
-          description: Потрібна Авторизація
-        405:
-          description: Помилковий метод
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        400:
-          description: Помилковий запит
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        500:
-          description: Помилка
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
-  /stats/usage/{from}/{to}:
-    get:
-      tags:
-        - Статистика
-      security:
-        - ApiKeyAuth: []
-      summary: Статистика використання
-      parameters:
-        - name: from
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Початок часу
-          example: 1588636800
-        - name: to
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Останній час (якщо відсутній, буде використовуватись поточний час)
-          example: 1591056000
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UsageStats'
-        401:
-          description: Потрібна Авторизація
-        405:
-          description: Помилковий метод
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        400:
-          description: Помилковий запит
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        500:
-          description: Помилка
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
   /vin-decoder/{vin}:
     get:
       tags:
@@ -477,6 +392,91 @@ paths:
               example:
                 error: 400
                 message: 'vin.is_not_valid'
+        401:
+          description: Потрібна Авторизація
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: 401
+                message: 'auth.token.is_not_valid'
+
+  /customer/vehicles:
+    get:
+      tags:
+        - Транспорт
+      security:
+        - ApiKeyAuth: []
+      summary: Пошук транспортних засобів за номерний знаком
+      operationId: getVehicleByNumber
+      parameters:
+        - name: number
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Реєстраційний номер
+          example: AA4686EH
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleResponse'
+        400:
+          description: Помилковий запит
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: 400
+                message: 'request.validation_failed'
+        401:
+          description: Потрібна Авторизація
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: 401
+                message: 'auth.token.is_not_valid'
+
+  /customer/vehicles/{vin}:
+    get:
+      tags:
+        - Транспорт
+      security:
+        - ApiKeyAuth: []
+      summary: Пошук транспортного засобу за VIN-кодом
+      operationId: getVehicleByVin
+      parameters:
+        - name: vin
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '[A-HJ-NPR-Z0-9]{17}'
+          description: Ідентифікаційний номер транспортного засобу у ISO 3379
+          example: 5YJXCCE40GF010543
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleListResponse'
+        400:
+          description: Помилковий запит
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: 400
+                message: 'request.validation_failed'
         401:
           description: Потрібна Авторизація
           content:
@@ -832,6 +832,182 @@ components:
               type: string
               description: Загальна кількість запитів
               example: '5YJ'
+
+    VehicleListResponse:
+      type: object
+      description: Список транспортних засобів, що були знайдені
+      properties:
+        vehicles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vehicle'
+
+    VehicleResponse:
+      type: object
+      description: Інформація про транспортний засіб, що був знайдений
+      properties:
+        vehicle:
+          $ref: '#/components/schemas/Vehicle'
+
+    Vehicle:
+      type: object
+      description: Tранспортний засіб
+      properties:
+        vin:
+          type: string
+          description: VIN-код
+          example: "5YJXCCE40GF010543"
+        brand:
+          type: string
+          description: Марка
+          example: "TESLA"
+        model:
+          type: string
+          description: Модель
+          example: "MODEL X"
+        year:
+          type: integer
+          description: Рік випуску
+          example: 2016
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Action'
+
+    Action:
+      type: object
+      description: Детальна інформація про реєстрацію транспортного засобу
+      properties:
+        number:
+          type: string
+          description: Реєстраційний номер
+          example: "АА9359РС"
+        vin:
+          type: string
+          description: VIN-код
+          example: "5YJXCCE40GF010543"
+        brand:
+          type: string
+          description: Марка
+          example: "TESLA"
+        model:
+          type: string
+          description: Модель
+          example: "MODEL X"
+        year:
+          type: integer
+          description: Рік випуску
+          example: 2016
+        kind:
+          type: string
+          description: Тип
+          example: "ЛЕГКОВИЙ"
+          enum:
+            - "АВТОБУС"
+            - "ВАНТАЖНИЙ"
+            - "КВАДРОЦИКЛ"
+            - "ЛЕГКОВИЙ"
+            - "МОПЕД"
+            - "МОТОКВАДРОЦИКЛ"
+            - "МОТОТРИЦИКЛ"
+            - "МОТОЦИКЛ"
+            - "НАПІВПРИЧІП"
+            - "НЕВИЗНАЧЕНИЙ"
+            - "ПРИЧІП"
+            - "СПЕЦІАЛІЗОВАНІ"
+            - "СПЕЦІАЛЬНІ"
+            - "ТРИЦИКЛ"
+        color:
+          type: string
+          description: Колір
+          example: "ЧОРНИЙ"
+        date:
+          $ref: '#/components/schemas/Date'
+        own_weight:
+          type: number
+          description: Маса без навантаження
+          example: 2485
+        total_weight:
+          type: number
+          description: Повна маса
+          example: 3021
+        body:
+          type: string
+          description: Тип кузову
+          example: УНІВЕРСАЛ-B
+        purpose:
+          type: string
+          description: Призначення
+          example: ЗАГАЛЬНИЙ
+        action:
+          type: object
+          properties:
+            code:
+              type: integer
+              description: Код
+              example: 360
+            title:
+              type: string
+              description: Опис
+              example: "ПЕРЕРЕЄСТРАЦІЯ ТЗ У ЗВ`ЯЗКУ ЗІ ЗМІНОЮ АНКЕТНИХ ДАНИХ ВЛАСНИКА (З ЗМІНОЮ РЕГІОНУ РЕЄСТРАЦІЇ)"
+        department:
+          type: object
+          properties:
+            code:
+              type: integer
+              description: Код
+              example: 12295
+            name:
+              type: string
+              description: Назва
+              example: "ТСЦ 8046"
+        owner:
+          type: object
+          properties:
+            entity:
+              type: string
+              description: Власник
+              example: INDIVIDUAL
+              enum: [INDIVIDUAL, LEGAL]
+            registration:
+              type: object
+              properties:
+                code:
+                  type: string
+                  description: Код
+                  example: 3223155400
+                summary:
+                  type: string
+                  description: Локація
+                  example: "Київська область/м. Київ, Обухівський рaйон/м. Обухів, Козин"
+        code:
+          type: string
+          description: Номер свідоцтва про реєстрацію транспортного засобу
+          example: "СХН484154"
+        num_seating:
+          type: integer
+          description: Кількість стоячих місць
+          example: null
+        category:
+          type: string
+          description: Категорія транспортного засобу
+          example: "B"
+
+    Date:
+      type: object
+      properties:
+        year:
+          type: integer
+          description: Рік
+          example: 2021
+        month:
+          type: integer
+          description: Місяць
+          example: 1
+        day:
+          type: integer
+          description: День
+          example: 4
 
 tags:
 - name: Транспорт
